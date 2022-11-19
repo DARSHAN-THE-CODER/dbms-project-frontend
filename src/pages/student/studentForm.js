@@ -136,14 +136,14 @@ export default function StudentForm1() {
               ))}
             </div>
             <FormAction handleSubmit={handleSubmit} text="NEXT" />
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-green-500">
+            {/* <h2 className="mt-6 text-center text-3xl font-extrabold text-green-500">
               {message}
             </h2>
             {error && (
               <h2 className="mt-6 text-center text-3xl font-extrabold text-red-500">
                 {error}
               </h2>
-            )}
+            )} */}
           </form>
         </div>
         {
@@ -177,14 +177,14 @@ export default function StudentForm1() {
                   ))}
                 </div>
                 <FormAction handleSubmit={handleFinalSubmit} text="SUBMIT" />
-                <h2 className="mt-6 text-center text-3xl font-extrabold text-green-500">
+                {/* <h2 className="mt-6 text-center text-3xl font-extrabold text-green-500">
                   {message}
                 </h2>
                 {error && (
                   <h2 className="mt-6 text-center text-3xl font-extrabold text-red-500">
                     {error}
                   </h2>
-                )}
+                )} */}
               </form>
             </div>
           )

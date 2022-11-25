@@ -224,7 +224,7 @@ export default function ClassPage(
                                 <div key={index} className="border-2 rounded-lg m-3 bg-white">
                                     <div className="flex flex-col">
                                         <button
-                                            onClick={() => deleteAssignment(student)}
+                                            onClick={() => deleteStudent(student)}
                                             className="bg-slate-400 rounded-sm p-1"
                                         >
                                             DELETE

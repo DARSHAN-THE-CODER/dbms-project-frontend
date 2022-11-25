@@ -11,14 +11,22 @@ export default function Input({
   type,
   isRequired = false,
   placeholder,
-  disabled=false,
+  disabled = false,
   customClass,
 }) {
+  let x;
+  if(type === "datetime-local"){
+    console.log(value)
+    x= new Date(value)
+    console.log(x)
+    console.log(x.toDateString())
+  }
   return (
     <div className="my-5">
       <label htmlFor={labelFor} className="sr-only">
-        {labelText}
+        {labelText} 
       </label>
+      {type === "datetime-local" ? (x.toDateString()) : ""}
       <input
         onChange={handleChange}
         value={value}

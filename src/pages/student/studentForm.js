@@ -71,9 +71,9 @@ export default function StudentForm1() {
     // console.log("form 1 is ",form1)
     // console.log("choosen ASSignmeny is ",choosenAssignment)
     // console.log(response)
-    axios.post("http://localhost:6060/submission",{ 
+    axios.post("http://localhost:6060/submission", {
       ...response,
-      srn: form1?.srn, 
+      srn: form1?.srn,
       assignmentId: choosenAssignment?.assignmentId
     })
       .then((res) => {

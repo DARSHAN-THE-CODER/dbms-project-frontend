@@ -25,6 +25,9 @@ export default function ClassPage(
     const [students, setStudents] = useState([])
     const [assignments, setAssignments] = useState([]);
     const [classDetails, setClassDetails] = useState({});
+    const [studentCount, setStudentCount] = useState("");
+    const [oldAssignments, setOldAssignments] = useState([])
+
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
 
@@ -94,11 +97,23 @@ export default function ClassPage(
             .catch((err) => {
                 console.log(err)
             })
+
+        // console.log("jdcnnc ", JSON.parse(localStorage.getItem("faculty")).facultyId)
+        let xd = JSON.parse(localStorage.getItem("faculty")).facultyId;
+        console.log("xd ", xd)
+        axios.get(`http://localhost:6060/special/backup/${id}/${xd}`)
+            .then((res) => {
+                console.log(res.data)
+                setOldAssignments(res.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }, [id])
     // console.log(classDetails)
     // console.log(assignments)
     // console.log(assignmentHeaders)
-    console.log(students)
+    // console.log(students)
 
     function deleteAssignment(assignment) {
         console.log(assignment)
@@ -108,9 +123,28 @@ export default function ClassPage(
         axios.delete(`http://localhost:6060/assignments/${assignment.assignmentId}`)
             .then((res) => {
                 console.log(res)
-                setAssignments(current => {
-                    return current.filter((item) => item.assignmentId !== assignment.assignmentId)
-                })
+
+                axios.get(`http://localhost:6060/assignments/class/${id}`)
+                    .then((res) => {
+                        // console.log(res.data[0]?.Assignments)
+                        setAssignments(res.data[0]?.Assignments)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+
+                let xd = JSON.parse(localStorage.getItem("faculty")).facultyId;
+
+                console.log("xd ", xd)
+                axios.get(`http://localhost:6060/special/backup/${id}/${xd}`)
+                    .then((res) => {
+                        console.log(res.data)
+                        setOldAssignments(res.data)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+
             })
             .catch((err) => {
                 console.log(err)
@@ -122,27 +156,44 @@ export default function ClassPage(
         axios.delete(`http://localhost:6060/student/${student.srn}/${student.classCode}`)
             .then((res) => {
                 console.log(res)
-                setStudents(current => {
-                    return current.filter((item) => item.srn !== student.srn)
-                })
+                axios.get(`http://localhost:6060/class/${id}`)
+                    .then((res) => {
+                        // console.log(res.data?.Classes[0]?.Students)
+                        setStudents(res.data?.Classes[0]?.Students)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
             }
             )
             .catch((err) => {
                 console.log(err)
             })
     }
+
+    function getCount() {
+        axios.get(`http://localhost:6060/special/count/${id}`)
+            .then((res) => {
+                console.log(res.data?.count)
+                setStudentCount(res.data?.count)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
     return (
         <div className="w-full bg-slate-400">
             <div className="flex">
                 <h2 className="text-center mx-auto my-auto text-3xl font-extrabold text-gray-900">
                     WELCOME {faculty?.firstName}
                 </h2>
-                <button onClick={() => {navigate('/dashboard') }} className="bg-slate-600 text-white p-2 rounded-lg flex-end  items-end justify-end">
+                <button onClick={() => { navigate('/dashboard') }} className="bg-slate-600 text-white p-2 rounded-lg flex-end  items-end justify-end">
                     BACK
                 </button>
             </div>
             <hr className="w-full"></hr>
-            <div className="flex">
+            <div className="flex flex-wrap">
                 <div className="flex justify-start bg-white rounded-lg m-3 items-start flex-col p-3">
                     <Header
                         heading="Update class"
@@ -176,11 +227,25 @@ export default function ClassPage(
                     </form>
                 </div>
                 <div className="border-2 rounded-lg m-3 bg-white">
-                    <CreateAssignment classCode={classDetails?.classCode} faculty={faculty} />
+                    <CreateAssignment classCode={classDetails?.classCode} faculty={faculty} setAssignments={setAssignments} />
                 </div>
                 <div className="border-2 rounded-lg m-3 bg-white">
-                    <CreateStudent classCode={classDetails?.classCode} />
+                    <CreateStudent classCode={classDetails?.classCode} setStudents={setStudents} />
                 </div>
+                <div className="flex flex-col">
+
+                <p className="my-auto bg-white p-2 rounded-lg cursor-pointer"
+                    onClick={() => getCount()}
+                    >
+                    GET NUMBER OF STUDENTS : {studentCount}
+                </p>
+                <p className="my-auto bg-white p-2 rounded-lg mx-auto cursor-pointer"
+                    >
+                   <Link to="/misc">GET COMMON STUDENTS LIST</Link>
+                </p>
+                </div>
+                {/* <div className="border-2 rounded-lg m-3 bg-white h-auto">
+                </div> */}
             </div>
             <hr className="w-full h-2"></hr>
             <h2 className="text-center text-3xl font-extrabold text-gray-900">
@@ -216,7 +281,7 @@ export default function ClassPage(
                 Students
             </h2>
             <hr className="w-full h-2"></hr>
-            <div className="flex overflow-x-auto">
+            <div className="flex flex-wrap overflow-x-auto">
                 {
                     students?.length > 0 ?
                         (
@@ -246,6 +311,29 @@ export default function ClassPage(
             </h2>
             <hr className="w-full h-2"></hr>
             <GetLimitedStudents classCode={classDetails?.classCode} />
+            <hr className="w-full h-2"></hr>
+            <h2 className="text-center text-3xl font-extrabold text-gray-900">
+                OLD ASSIGNMENTS
+            </h2>
+
+            <div className="flex flex-wrap">
+                {
+                    oldAssignments?.length > 0 ?
+                        (
+                            oldAssignments?.map((assignment, index) => (
+                                <div key={index} className="border-2 rounded-lg m-3 bg-white">
+                                    <div className="flex flex-col">
+                                        <ShowAssignments disabled={true} key={index} assignment={assignment} />
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <h2 className="text-center text-3xl font-extrabold text-gray-900">
+                                NO OLD ASSIGNMENTS FOUND
+                            </h2>
+                        )
+                }
+            </div>
         </div>
     );
 }

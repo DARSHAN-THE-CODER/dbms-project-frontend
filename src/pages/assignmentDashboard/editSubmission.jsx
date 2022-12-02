@@ -106,7 +106,7 @@ export default function EditSubmission({
                 <div
                 onClick={() => setShowModal(true)}
                 className="bg-slate-400 text-conter justify-center cursor-pointer p-2">SHOW RESPONSE</div>
-            </div>
+                </div>
             {
                 showModal && <Modal
                     showModal={showModal}

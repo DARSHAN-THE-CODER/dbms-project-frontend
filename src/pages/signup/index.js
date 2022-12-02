@@ -8,12 +8,16 @@ import { signupFields } from "../../constants/formFields";
 
 import axios from "axios";
 
+import { useNavigate } from "react-router-dom/dist";
+
 export default function LoginPage() {
 
   // console.log(loginFields);
   const fields = signupFields;
   let fieldsState = {};
   fields?.forEach(field => fieldsState[field.id] = '');
+
+  const navigate = useNavigate();
 
   const [loginState, setLoginState] = useState(fieldsState);
   const [message, setMessage] = useState("");
@@ -34,6 +38,7 @@ export default function LoginPage() {
         setMessage(res.data.message);
         const myTimeout = setTimeout(() => {
           setMessage("");
+          navigate('/');
         }, 5000);
       })
       .catch((err) => {

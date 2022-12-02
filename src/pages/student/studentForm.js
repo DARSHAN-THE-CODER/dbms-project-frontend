@@ -31,6 +31,7 @@ export default function StudentForm1() {
   const [response, setResponse] = useState(fieldsState3)
 
   const [showModal, setShowModal] = useState(false)
+  const [showModal1, setShowModal1] = useState(false)
 
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -199,10 +200,10 @@ export default function StudentForm1() {
             (
               assignments?.map((assignment, index) => (
                 <div key={index}
-                  onClick={() => handleClick(assignment)}
+                  
                   className={`border-2 rounded-lg m-3 bg-white cursor-pointer ${choosenAssignment?.assignmentId === assignment?.assignmentId ? "bg-slate-400" : ""}`}>
-                  <div className="flex flex-col">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg">
+                  <div className="flex flex-col" >
+                    <div class="max-w-sm rounded overflow-hidden shadow-lg" onClick={() => handleClick(assignment)}>
 
                       <div className="flex justify-start items-start flex-col p-3">
                         {/* <Link className="text-blue-500" to={`/assignment/${assignment?.assignmentId}`}> VIEW ASSIGNMENT >>>>> </Link> */}
@@ -234,7 +235,23 @@ export default function StudentForm1() {
                         </form>
                       </div>
                       {/* </Link> */}
+
+                      
                     </div>
+
+                    <div
+                        onClick={() => setShowModal1(true)}
+                        className="bg-violet-400 text-conter justify-center cursor-pointer p-2">
+                          SHOW RESOURCE
+                      </div>
+                      {
+                        showModal1 && <Modal
+                          showModal={showModal1}
+                          setShowModal={setShowModal1}
+                          title={"RESOURCE"}
+                          src={assignment?.resources}
+                        />
+                      }
                   </div>
                 </div>
               ))
@@ -257,6 +274,6 @@ export default function StudentForm1() {
           </Modal>
         )
       }
-    </div>
+    </div >
   );
 }

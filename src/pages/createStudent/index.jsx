@@ -7,7 +7,7 @@ import FormAction from "../../components/design/FormAction";
 import { createStudent } from "../../constants/formFields";
 import axios from "axios";
 
-export default function CreateStudent({ classCode }) {
+export default function CreateStudent({ classCode, setStudents }) {
   const fields = createStudent;
   let fieldsState = {};
   fields?.forEach((field) => (fieldsState[field.id] = ""));
@@ -30,11 +30,28 @@ export default function CreateStudent({ classCode }) {
     axios
       .post("http://localhost:6060/student", createStudentState)
       .then((res) => {
-        setMessage(res.data.message);
+        console.log(res)
+        setMessage("Student added successfully");
+        axios.get(`http://localhost:6060/class/${classCode}`)
+            .then((res) => {
+                // console.log(res.data?.Classes[0]?.Students)
+                setStudents(res.data?.Classes[0]?.Students)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
         setError("");
-        const myTimeout = setTimeout(() => {
+        setTimeout(() => {
           setMessage("");
-        }, 5000);
+          axios.get(`http://localhost:6060/class/${classCode}`)
+            .then((res) => {
+                // console.log(res.data?.Classes[0]?.Students)
+                setStudents(res.data?.Classes[0]?.Students)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }, 3000);
       })
       .catch((err) => {
         setError(err.response.data.message);

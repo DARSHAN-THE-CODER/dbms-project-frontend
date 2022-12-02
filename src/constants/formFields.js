@@ -410,7 +410,30 @@ const disabledAssignmentFields = [
     },
 ]
 
-export {loginFields,signupFields, createClass, createStudent, createAssignment, limitedStudentsForm, editSubmission, studentForm1, submissionResponse, disabledAssignmentFields}
+const inersectionForm = [
+    {
+        labelText:"CLASS CODE 1",
+        labelFor:"classCode",
+        id:"classCode1",
+        name:"classCode",
+        type:"text",
+        autoComplete:"",
+        isRequired:true,
+        placeholder:"CLASS CODE 1"   
+    },
+    {
+        labelText:"CLASS CODE",
+        labelFor:"classCode",
+        id:"classCode2",
+        name:"classCode",
+        type:"text",
+        autoComplete:"",
+        isRequired:true,
+        placeholder:"CLASS CODE 2"   
+    },
+]
+
+export {loginFields,signupFields, createClass, createStudent, createAssignment, limitedStudentsForm, editSubmission, studentForm1, submissionResponse, disabledAssignmentFields, inersectionForm}
 
 // {
     // labelText:"",

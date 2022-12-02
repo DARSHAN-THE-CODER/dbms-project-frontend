@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom/dist";
 
 export default function CreateClassPage({
     faculty,
+    setClasses
 }
 ) {
     const fields = createClass;
@@ -35,6 +36,15 @@ export default function CreateClassPage({
                 console.log(res);
                 setError("")
                 setMessage(res.data.message);
+                axios
+                    .get(`http://localhost:6060/class/faculty/${faculty?.facultyId}`)
+                    .then((res) => {
+                        // console.log(res.data.data[0]?.Classes);
+                        setClasses(res.data.data[0]?.Classes);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
                 const myTimeout = setTimeout(() => {
                     setMessage("");
                     window.location.reload();

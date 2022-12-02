@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 
 export default function ShowAssignments({
     assignment,
+    disabled=false,
     // assignmentHeaders,
 }) {
     // console.log(assignmentHeaders)
@@ -32,7 +33,7 @@ export default function ShowAssignments({
     const handleEditAssignment = (e) => {
         e.preventDefault();
         console.log(assignmentDetails)
-        axios.patch(`http://localhost:6060/assignment/${assignmentDetails?.assignmentId}`, assignmentDetails)
+        axios.patch(`http://localhost:6060/assignments/${assignmentDetails?.assignmentId}`, assignmentDetails)
             .then((res) => {
                 console.log(res);
                 setError("")
@@ -55,7 +56,7 @@ export default function ShowAssignments({
         <div class="max-w-sm rounded overflow-hidden shadow-lg">
 
             <div className="flex justify-start items-start flex-col p-3">
-                <Link className="text-blue-500" to={`/assignment/${assignment?.assignmentId}`}> VIEW ASSIGNMENT >>>>> </Link>
+                {disabled === false && <Link className="text-blue-500" to={`/assignment/${assignment?.assignmentId}`}> VIEW ASSIGNMENT >>>>> </Link>}
                 <Header
                     heading=""
                     show={false}
@@ -74,13 +75,14 @@ export default function ShowAssignments({
                                     id={field.id}
                                     name={field.name}
                                     type={field.type}
+                                    disabled={disabled}
                                     isRequired={field.isRequired}
                                     placeholder={field.placeholder}
                                 />
                             </div>
                         ))}
                     </div>
-                    <FormAction handleSubmit={handleEditAssignment} text="UPDATE ASSIGNMENT" />
+                   {disabled === false && <FormAction handleSubmit={handleEditAssignment} text="UPDATE ASSIGNMENT" />}
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-green-500">
                         {message}
                     </h2>

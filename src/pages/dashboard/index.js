@@ -38,6 +38,16 @@ export default function Dashboard() {
       });
   }, [navigate, faculty?.facultyId]);
 
+  function deleteClass(class2){
+    axios.delete(`http://localhost:6060/class/${class2?.classCode}`)
+    .then((res) => {
+      console.log(res)
+      setClasses(classes?.filter(item => {return (item.classCode !== class2.classCode)}))
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
   return (
     <div className="w-full mt-2">
       <div className="flex mx-auto">
@@ -51,7 +61,7 @@ export default function Dashboard() {
       <hr className="w-full"></hr>
       <div className="flex flex-wrap">
         <UpdateFaculty faculty={faculty} />
-        <CreateClassPage faculty={faculty} />
+        <CreateClassPage faculty={faculty} setClasses={setClasses}/>
       </div>
       <hr className="w-full h-2 "></hr>
       <h2 className="text-center text-3xl font-extrabold text-gray-900">
@@ -61,6 +71,12 @@ export default function Dashboard() {
         {classes.map((class2, index) => {
           return (
             <div key={index} className="w-full p-4  m-2 shadow-xl border-2 cursor-pointer lg:max-w-lg">
+              <button
+                className="bg-slate-400 rounded-sm p-1"
+                onClick={() => deleteClass(class2)}
+              >
+                delete
+              </button>
               <Link to={`/class/${class2?.classCode}`}>
                 <div className="space-y-2">
                   <p className="font-bold text-center">{class2?.className}</p>

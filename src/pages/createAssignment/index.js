@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom/dist";
 export default function CreateAssignment({
     faculty,
     classCode,
+    setAssignments
 }) {
     const fields = createAssignment;
     let fieldsState = {};
@@ -39,6 +40,15 @@ export default function CreateAssignment({
                     setMessage("");
                 }, 5000);
                 setCreateAssignmentState(fieldsState);
+
+                axios.get(`http://localhost:6060/assignments/class/${classCode}`)
+                .then((res) => {
+                    console.log(res.data[0])
+                    setAssignments(res.data[0]?.Assignments)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
             })
             .catch(err => {
                 setMessage("");

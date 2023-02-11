@@ -17,8 +17,6 @@ jobs:
     - name: build and deploy frontend
       run: |
             ls
-            cd home/
-            cd /home/ubuntu/actions-runner/_work/dbms-project-frontend/dbms-project-frontend
             yarn
             yarn build 
             sudo cp ~/home/ubuntu/actions-runner/_work/dbms-project-frontend/dbms-project-frontend/build /var/www/html 

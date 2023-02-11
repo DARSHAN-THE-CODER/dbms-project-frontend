@@ -17,6 +17,7 @@ jobs:
     - name: build and deploy frontend
       run: |
             ls
+            sudo npm install yarn -g
             yarn
             yarn build 
             sudo cp ~/home/ubuntu/actions-runner/_work/dbms-project-frontend/dbms-project-frontend/build /var/www/html 

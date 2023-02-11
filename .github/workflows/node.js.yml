@@ -24,6 +24,5 @@ jobs:
           yarn --version
           yarn install
           yarn build 
-          cd /var/www/html
-          sudo cp -r ~/home/ubuntu/actions-runner/_work/dbms-project-frontend/dbms-project-frontend/build
+          sudo cp -r /home/ubuntu/actions-runner/_work/dbms-project-frontend/dbms-project-frontend/build /var/www/html
           

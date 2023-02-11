@@ -25,4 +25,4 @@ jobs:
           yarn install
           yarn build 
           sudo cp -r /home/ubuntu/actions-runner/_work/dbms-project-frontend/dbms-project-frontend/build /var/www/html
-          
+          sudo systemctl restart nginx

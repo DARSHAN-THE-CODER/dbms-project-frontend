@@ -23,7 +23,7 @@ export default function Input({
   }
   return (
     <div className="my-5">
-      <label htmlFor={labelFor} className="sr-only">
+      <label htmlFor={labelFor} className="text-lg">
         {labelText} 
       </label>
       {type === "datetime-local" ? (x.toDateString()) : ""}

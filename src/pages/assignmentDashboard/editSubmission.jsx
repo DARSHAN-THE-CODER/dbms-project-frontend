@@ -73,7 +73,7 @@ export default function EditSubmission({
                 <h3>
                     SUBMITTED ON : 
                 </h3>
-                <h4 className="font-semibold">
+                <h4 className="import './index.css';">
                 {convDate(submissionDetails?.createdAt)} 
                 </h4>
                 <hr className="w-full h-2"></hr>
